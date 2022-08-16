@@ -1,0 +1,10 @@
+Bank/bin
+Bank/obj
+Bank.00.Introduction.Tests/bin
+Bank.00.Introduction.Tests/obj
+Bank.01.FakeItEasy.Tests/bin
+Bank.01.FakeItEasy.Tests/obj
+Bank.02.FluentAssertions.Tests/bin
+Bank.02.FluentAssertions.Tests/obj
+UnitTestingTutorial/bin
+UnitTestingTutorial/obj
