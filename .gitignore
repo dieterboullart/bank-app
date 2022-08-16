@@ -8,3 +8,12 @@ Bank.02.FluentAssertions.Tests/bin
 Bank.02.FluentAssertions.Tests/obj
 UnitTestingTutorial/bin
 UnitTestingTutorial/obj
+.idea/.idea.BankApp
+.idea
+Bank.ConsoleClient/bin
+Bank.ConsoleClient/obj
+Bank.Data/bin
+Bank.Data/obj
+Bank.Domain/bin
+Bank.Domain/obj
+Bank.Domain.Tests/obj
