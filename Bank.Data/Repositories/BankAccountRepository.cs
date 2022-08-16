@@ -9,7 +9,6 @@ namespace Bank.Data.Repositories
     public class BankAccountRepository : IBankAccountRepository
     {
         private readonly IEntityMapper _entityMapper;
-        private static string _rootFolder;
         
         public BankAccountRepository(IEntityMapper entityMapper)
         {

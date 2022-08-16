@@ -17,3 +17,5 @@ Bank.Data/obj
 Bank.Domain/bin
 Bank.Domain/obj
 Bank.Domain.Tests/obj
+Bank.Domain.Tests/bin
+Bank.sln.DotSettings.user
