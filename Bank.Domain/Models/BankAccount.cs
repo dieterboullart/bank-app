@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bank.Domain
+namespace Bank.Domain.Models
 {
     public class BankAccount
     {

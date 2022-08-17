@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Bank.Domain;
+using Bank.Domain.Models;
 using FluentAssertions;
 using Xunit;
 
-namespace Bank.Tests.Models
+namespace Bank.Domain.Tests.Models
 {
     public class BankAccountTest
     {

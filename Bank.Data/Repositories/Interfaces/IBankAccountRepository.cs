@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Bank.Domain.Models;
 
-namespace Bank.Domain.Interfaces
+namespace Bank.Data.Repositories.Interfaces
 {
     public interface IBankAccountRepository
     {

@@ -1,7 +1,6 @@
-using System;
-using Bank.Interfaces;
+using Bank.Shared.Logging.Interfaces;
 
-namespace Bank.Domain.Implementations
+namespace Bank.Shared.Logging
 {
     public class ConsoleLogger : ILogger
     {

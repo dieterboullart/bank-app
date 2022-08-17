@@ -1,8 +1,6 @@
-using System;
-using Bank.Domain.Interfaces;
-using Bank.Interfaces;
+using Bank.Shared.Utils.Clock.Interfaces;
 
-namespace Bank.Domain.Implementations
+namespace Bank.Shared.Utils.Clock
 {
     public class SystemClock : IClock
     {

@@ -1,9 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using Bank.Domain.Interfaces;
-using Bank.Interfaces;
+using Bank.BL.Services.Interfaces;
+using Bank.Data.Repositories.Interfaces;
+using Bank.Domain.Models;
+using Bank.Shared.Logging.Interfaces;
+using Bank.Shared.Utils.Clock.Interfaces;
 
-namespace Bank.Domain.Implementations
+namespace Bank.BL.Services
 {
     public class BankService : IBankService
     {

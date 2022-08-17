@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+using Bank.Domain.Models;
 
-namespace Bank.Domain.Interfaces
+namespace Bank.BL.Services.Interfaces
 {
     public interface IBankService
     {

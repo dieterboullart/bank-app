@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using Bank.Domain;
-using Bank.Domain.Implementations;
-using Bank.Domain.Interfaces;
-using Bank.Interfaces;
+using Bank.BL.Services;
+using Bank.Data.Repositories.Interfaces;
+using Bank.Domain.Models;
+using Bank.Shared.Logging.Interfaces;
+using Bank.Shared.Utils.Clock.Interfaces;
 using FakeItEasy;
 using FluentAssertions;
 using Xunit;
 
-namespace Bank.Tests.Implementations
+namespace Bank.BL.Tests.Services
 {
     public class BankServiceTest
     {

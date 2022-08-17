@@ -1,6 +1,6 @@
 namespace Bank.Data.Entities
 {
-    public class BankAccountWithdrawalTransaction : Data.Entities.BankAccountTransaction
+    public class BankAccountWithdrawalTransaction : BankAccountTransaction
     {
     }
 }

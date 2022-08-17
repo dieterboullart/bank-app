@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bank.BL\Bank.BL.csproj" />
       <ProjectReference Include="..\Bank.Data\Bank.Data.csproj" />
       <ProjectReference Include="..\Bank.Domain\Bank.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="DryIoc" Version="5.2.1" />
+      <ProjectReference Include="..\Bank.Shared\Bank.Shared.csproj" />
     </ItemGroup>
 
 </Project>

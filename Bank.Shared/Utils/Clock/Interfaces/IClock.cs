@@ -1,6 +1,4 @@
-using System;
-
-namespace Bank.Domain.Interfaces
+namespace Bank.Shared.Utils.Clock.Interfaces
 {
     public interface IClock
     {

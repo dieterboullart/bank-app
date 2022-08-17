@@ -1,6 +1,6 @@
 using System;
 
-namespace Bank.Domain
+namespace Bank.Domain.Models
 {
     public abstract class BankAccountTransaction
     {

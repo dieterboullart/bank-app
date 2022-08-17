@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bank.Data.Mappers;
-using Bank.Domain.Interfaces;
+using Bank.Data.Mappers.Interfaces;
+using Bank.Data.Repositories.Interfaces;
+using Bank.Domain.Models;
 
 namespace Bank.Data.Repositories
 {
@@ -15,7 +17,7 @@ namespace Bank.Data.Repositories
             _entityMapper = entityMapper;
         }
         
-        public IList<Domain.Person> Find(string nameQuery)
+        public IList<Person> Find(string nameQuery)
         {
             using var db = LiteDBProvider.CreateDatabase();
 
@@ -25,7 +27,7 @@ namespace Bank.Data.Repositories
                         .ToList();
         }
 
-        public void Save(Domain.Person person)
+        public void Save(Person person)
         {
             using var db = LiteDBProvider.CreateDatabase();
 

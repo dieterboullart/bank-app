@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using Bank.Data.Mappers.Interfaces;
+using Bank.Domain.Models;
 
 namespace Bank.Data.Mappers
 {
     public class EntityMapper : IEntityMapper
     {
-        public IList<Domain.BankAccountSummary> ToDomain(IEnumerable<Entities.BankAccount> bankAccounts)
+        public IList<BankAccountSummary> ToDomain(IEnumerable<Entities.BankAccount> bankAccounts)
         {
-            if (bankAccounts == null) return new List<Domain.BankAccountSummary>();
+            if (bankAccounts == null) return new List<BankAccountSummary>();
             
             return bankAccounts
-                    .Select(x => new Domain.BankAccountSummary(
+                    .Select(x => new BankAccountSummary(
                                                     x.Id, 
                                                     x.Holder.Id,
                                                     $"{x.Holder.FirstName} {x.Holder.LastName}",
@@ -19,7 +21,7 @@ namespace Bank.Data.Mappers
                     .ToList();
         }
 
-        public Domain.BankAccount ToDomain(Entities.BankAccount bankAccount)
+        public BankAccount ToDomain(Entities.BankAccount bankAccount)
         {
             return new(
                     bankAccount.Id,
@@ -29,7 +31,7 @@ namespace Bank.Data.Mappers
                     ToDomain(bankAccount.Transactions));
         }
 
-        public Entities.BankAccount ToEntity(Domain.BankAccount bankAccount)
+        public Entities.BankAccount ToEntity(BankAccount bankAccount)
         {
             return new()
             {
@@ -41,12 +43,12 @@ namespace Bank.Data.Mappers
             };
         }
 
-        public Domain.Person ToDomain(Entities.Person person)
+        public Person ToDomain(Entities.Person person)
         {
             return new(person.Id, person.FirstName, person.LastName);
         }
 
-        public Entities.Person ToEntity(Domain.Person person)
+        public Entities.Person ToEntity(Person person)
         {
             return new()
             {
@@ -56,23 +58,23 @@ namespace Bank.Data.Mappers
             };
         }
 
-        private Entities.BankAccountTransaction ToEntity(Domain.BankAccountTransaction bankAccountTransaction)
+        private Entities.BankAccountTransaction ToEntity(BankAccountTransaction bankAccountTransaction)
         {
             switch (bankAccountTransaction)
             {
-                case Domain.BankAccountDepositTransaction _:
+                case BankAccountDepositTransaction _:
                     return new Entities.BankAccountDepositTransaction
                     {
                         Amount = bankAccountTransaction.Amount, 
                         DateTime = bankAccountTransaction.DateTime
                     };
-                case Domain.BankAccountWithdrawalTransaction _:
+                case BankAccountWithdrawalTransaction _:
                     return new Entities.BankAccountWithdrawalTransaction
                     {
                         Amount = bankAccountTransaction.Amount, 
                         DateTime = bankAccountTransaction.DateTime
                     };
-                case Domain.BankAccountTransferTransaction transferTransaction:
+                case BankAccountTransferTransaction transferTransaction:
                     return new Entities.BankAccountTransferTransaction 
                     { 
                         SourceBankAccountId = transferTransaction.SourceBankAccountId,
@@ -85,23 +87,23 @@ namespace Bank.Data.Mappers
             }
         }
 
-        private IList<Entities.BankAccountTransaction> ToEntity(IEnumerable<Domain.BankAccountTransaction> bankAccountTransactions)
+        private IList<Entities.BankAccountTransaction> ToEntity(IEnumerable<BankAccountTransaction> bankAccountTransactions)
         {
             return bankAccountTransactions != null 
                 ? bankAccountTransactions.Select(ToEntity).ToList() 
                 : new List<Entities.BankAccountTransaction>();
         }
         
-        private Domain.BankAccountTransaction ToDomain(Entities.BankAccountTransaction bankAccountTransaction)
+        private BankAccountTransaction ToDomain(Entities.BankAccountTransaction bankAccountTransaction)
         {
             switch (bankAccountTransaction)
             {
                 case Entities.BankAccountDepositTransaction _:
-                    return new Domain.BankAccountDepositTransaction(bankAccountTransaction.Amount, bankAccountTransaction.DateTime);
+                    return new BankAccountDepositTransaction(bankAccountTransaction.Amount, bankAccountTransaction.DateTime);
                 case Entities.BankAccountWithdrawalTransaction _:
-                    return new Domain.BankAccountWithdrawalTransaction(bankAccountTransaction.Amount, bankAccountTransaction.DateTime);
+                    return new BankAccountWithdrawalTransaction(bankAccountTransaction.Amount, bankAccountTransaction.DateTime);
                 case Entities.BankAccountTransferTransaction transferTransaction:
-                    return new Domain.BankAccountTransferTransaction( 
+                    return new BankAccountTransferTransaction( 
                                 transferTransaction.SourceBankAccountId, 
                                 transferTransaction.DestinationBankAccountId, 
                                 bankAccountTransaction.Amount, 
@@ -111,11 +113,11 @@ namespace Bank.Data.Mappers
             }
         }
 
-        private IList<Domain.BankAccountTransaction> ToDomain(IList<Entities.BankAccountTransaction> bankAccountTransactions)
+        private IList<BankAccountTransaction> ToDomain(IList<Entities.BankAccountTransaction> bankAccountTransactions)
         {
             return bankAccountTransactions != null 
                 ? bankAccountTransactions.Select(ToDomain).ToList() 
-                : new List<Domain.BankAccountTransaction>();
+                : new List<BankAccountTransaction>();
         }
     }
 }

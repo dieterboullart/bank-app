@@ -1,4 +1,4 @@
-namespace Bank.Domain
+namespace Bank.Domain.Models
 {
     public class Person
     {

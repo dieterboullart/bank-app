@@ -1,6 +1,6 @@
 using System;
 
-namespace Bank
+namespace Bank.Domain.Models
 {
     public class BankException : Exception
     {

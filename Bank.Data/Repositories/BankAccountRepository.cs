@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Bank.Data.Mappers;
-using Bank.Domain.Interfaces;
+using Bank.Data.Mappers.Interfaces;
+using Bank.Data.Repositories.Interfaces;
+using Bank.Domain.Models;
 using LiteDB;
-using LiteDB.Engine;
 
 namespace Bank.Data.Repositories
 {
@@ -42,7 +43,7 @@ namespace Bank.Data.Repositories
             }
         }
 
-        public IList<Domain.BankAccountSummary> GetSummaries()
+        public IList<BankAccountSummary> GetSummaries()
         {
             using var db = LiteDBProvider.CreateDatabase();
 
@@ -53,7 +54,7 @@ namespace Bank.Data.Repositories
             return _entityMapper.ToDomain(entities);                
         }
 
-        public Domain.BankAccount Get(int accountId)
+        public BankAccount Get(int accountId)
         {
             using var db = LiteDBProvider.CreateDatabase();
 
@@ -63,7 +64,7 @@ namespace Bank.Data.Repositories
             return _entityMapper.ToDomain(entity);
         }
 
-        public void Save(Domain.BankAccount bankAccount)
+        public void Save(BankAccount bankAccount)
         {
             var entity = _entityMapper.ToEntity(bankAccount);
 

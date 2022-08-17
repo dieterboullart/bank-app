@@ -1,6 +1,6 @@
 namespace Bank.Data.Entities
 {
-    public class BankAccountTransferTransaction : Data.Entities.BankAccountTransaction
+    public class BankAccountTransferTransaction : BankAccountTransaction
     {
         public int SourceBankAccountId { get; set; }
         public int DestinationBankAccountId { get; set; }

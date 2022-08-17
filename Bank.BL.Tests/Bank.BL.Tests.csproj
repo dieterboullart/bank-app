@@ -7,13 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FakeItEasy" Version="7.1.0" />
       <PackageReference Include="FluentAssertions" Version="6.7.0" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
       <PackageReference Include="xunit" Version="2.4.2" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Bank.BL\Bank.BL.csproj" />
+      <ProjectReference Include="..\Bank.Data\Bank.Data.csproj" />
       <ProjectReference Include="..\Bank.Domain\Bank.Domain.csproj" />
+      <ProjectReference Include="..\Bank.Shared\Bank.Shared.csproj" />
     </ItemGroup>
 
 </Project>

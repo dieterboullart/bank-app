@@ -1,9 +1,8 @@
 using System;
 using System.IO;
 using LiteDB;
-using LiteDB.Engine;
 
-namespace Bank.Data.Repositories
+namespace Bank.Data
 {
     public static class LiteDBProvider
     {
@@ -15,8 +14,8 @@ namespace Bank.Data.Repositories
             {
                 if (_dbPath == null)
                 {
-                    var rootFolder = CreateRootFolder();
-                    _dbPath = Path.Combine(rootFolder, "bank.db");
+                    // var rootFolder = CreateRootFolder();
+                    _dbPath = Path.Combine("bank.db");
                 }
 
                 return _dbPath;

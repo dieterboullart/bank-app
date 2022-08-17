@@ -1,4 +1,4 @@
-namespace Bank.Interfaces
+namespace Bank.Shared.Logging.Interfaces
 {
     public interface ILogger
     {

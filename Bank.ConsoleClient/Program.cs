@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bank.BL.Services;
+using Bank.BL.Services.Interfaces;
+using Bank.ConsoleClient.Startup;
 using Bank.Data.Mappers;
 using Bank.Data.Repositories;
 using Bank.Domain;
-using Bank.Domain.Implementations;
-using Bank.Domain.Interfaces;
+using Bank.Domain.Models;
+using DryIoc;
 
 namespace Bank.ConsoleClient
 {
     internal static class Program
     {
-        private static IBankService _bankService;
-        
+        private static IContainer _container;
+
         public static void Main()
         {
-            var bankRepository = new BankAccountRepository(new EntityMapper());
-            var personRepository = new PersonRepository(new EntityMapper());
-            
+            // Setup DI container
+            _container = DryIocConfiguration.ConfigureIoc();
+
             // Seed the repo, comment next line out after the first time the program is run
-            Seed(bankRepository, personRepository);
-                
-            _bankService = new BankService(bankRepository, new ConsoleLogger(), new SystemClock());
-            
+            // DatabaseConfiguration.SeedDatabase(_container);
+
+            // Start program execution
             ShowMenu();
         }
 
@@ -68,25 +70,28 @@ namespace Bank.ConsoleClient
                 Console.WriteLine();
             } while (input != 6);
         }
-        
+
         private static void ListAll()
         {
             Console.WriteLine();
-            
-            foreach (var bankAccount in _bankService.GetSummaries())
+
+            var bankService = _container.Resolve<IBankService>();
+            foreach (var bankAccount in bankService.GetSummaries())
             {
-                Console.WriteLine($"Account id: {bankAccount.Id}. Holder: {bankAccount.HolderName}. Minimum balance: {bankAccount.MinBalance} EUR. Current balance: {bankAccount.Balance}) EUR.");
+                Console.WriteLine(
+                    $"Account id: {bankAccount.Id}. Holder: {bankAccount.HolderName}. Minimum balance: {bankAccount.MinBalance} EUR. Current balance: {bankAccount.Balance}) EUR.");
             }
         }
-        
+
         private static void ShowDetail()
         {
             Console.Write("Account id? ");
             ReadIntFromConsole(out var accountId);
-            var bankAccount = _bankService.GetDetail(accountId);
+            var bankService = _container.Resolve<IBankService>();
+            var bankAccount = bankService.GetDetail(accountId);
 
             if (bankAccount is null) return;
-            
+
             Console.WriteLine();
             Console.WriteLine($"Holder:          {bankAccount.Holder}");
             Console.WriteLine($"Minimum balance: {bankAccount.MinBalance}");
@@ -96,7 +101,7 @@ namespace Bank.ConsoleClient
             if (bankAccount.Transactions.Any())
             {
                 Console.WriteLine();
-            
+
                 var counter = 1;
                 foreach (var transaction in bankAccount.Transactions)
                 {
@@ -110,7 +115,8 @@ namespace Bank.ConsoleClient
                             Console.WriteLine($"WITHDRAW - amount: {transaction.Amount}.");
                             break;
                         case BankAccountTransferTransaction transferTransaction:
-                            Console.WriteLine($"TRANSFER - amount: {transferTransaction.Amount}. Destination account id: {transferTransaction.DestinationBankAccountId}.");
+                            Console.WriteLine(
+                                $"TRANSFER - amount: {transferTransaction.Amount}. Destination account id: {transferTransaction.DestinationBankAccountId}.");
                             break;
                     }
                 }
@@ -119,7 +125,7 @@ namespace Bank.ConsoleClient
             {
                 Console.WriteLine("no transactions yet");
             }
-        }        
+        }
 
         private static void Deposit()
         {
@@ -129,9 +135,10 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            _bankService.Deposit(accountId, amount);
+            var bankService = _container.Resolve<IBankService>();
+            bankService.Deposit(accountId, amount);
         }
-        
+
         private static void Withdraw()
         {
             Console.Write("Account id? ");
@@ -140,9 +147,10 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            _bankService.Withdraw(accountId, amount);
+            var bankService = _container.Resolve<IBankService>();
+            bankService.Withdraw(accountId, amount);
         }
-        
+
         private static void Transfer()
         {
             Console.Write("Source account id? ");
@@ -153,45 +161,19 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            _bankService.Transfer(sourceAccountId, destinationAccountId, amount);
+            var bankService = _container.Resolve<IBankService>();
+            bankService.Transfer(sourceAccountId, destinationAccountId, amount);
         }
-     
+
         private static void ReadIntFromConsole(out int value)
         {
             value = 0;
             var parseSuccess = false;
-            
+
             while (!parseSuccess)
             {
                 parseSuccess = int.TryParse(Console.ReadLine(), out value);
             }
-        }        
-        
-        private static void Seed(IBankAccountRepository bankAccountRepository, IPersonRepository personRepository)
-        {
-            var florian = new Person("Florian", "Goeteyn");
-            var pieter = new Person("Pieter", "Remerie");
-            var bart = new Person("Bart", "Bruynooghe");
-            var jelle = new Person("Jelle", "Vandendriesche");
-
-            personRepository.Save(florian);
-            personRepository.Save(pieter);
-            personRepository.Save(bart);
-            personRepository.Save(jelle);
-            
-            var bankAccounts = new List<BankAccount>
-            {
-                new(florian, 1023),
-                new(pieter, 768, -500),
-                new(bart, 1540),
-                new(jelle, 2088, -250),
-                new(jelle)
-            };
-            
-            foreach (var bankAccount in bankAccounts)
-            {
-                bankAccountRepository.Save(bankAccount);
-            }
-        }        
+        }
     }
 }
