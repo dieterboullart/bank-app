@@ -21,9 +21,6 @@ namespace Bank.ConsoleClient
             // Setup DI container
             _container = DryIocConfiguration.ConfigureIoc();
 
-            // Seed the repo, comment next line out after the first time the program is run
-            // DatabaseConfiguration.SeedDatabase(_container);
-
             // Start program execution
             ShowMenu();
         }
@@ -74,8 +71,8 @@ namespace Bank.ConsoleClient
         private static void ListAll()
         {
             Console.WriteLine();
-
-            var bankService = _container.Resolve<IBankService>();
+            using var resolver = _container.OpenScope();
+            var bankService = resolver.Resolve<IBankService>();
             foreach (var bankAccount in bankService.GetSummaries())
             {
                 Console.WriteLine(
@@ -87,7 +84,8 @@ namespace Bank.ConsoleClient
         {
             Console.Write("Account id? ");
             ReadIntFromConsole(out var accountId);
-            var bankService = _container.Resolve<IBankService>();
+            using var resolver = _container.OpenScope();
+            var bankService = resolver.Resolve<IBankService>();
             var bankAccount = bankService.GetDetail(accountId);
 
             if (bankAccount is null) return;
@@ -135,7 +133,8 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            var bankService = _container.Resolve<IBankService>();
+            using var resolver = _container.OpenScope();
+            var bankService = resolver.Resolve<IBankService>();
             bankService.Deposit(accountId, amount);
         }
 
@@ -147,7 +146,8 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            var bankService = _container.Resolve<IBankService>();
+            using var resolver = _container.OpenScope();
+            var bankService = resolver.Resolve<IBankService>();
             bankService.Withdraw(accountId, amount);
         }
 
@@ -161,7 +161,8 @@ namespace Bank.ConsoleClient
             ReadIntFromConsole(out var amount);
             Console.WriteLine();
 
-            var bankService = _container.Resolve<IBankService>();
+            using var resolver = _container.OpenScope();
+            var bankService = resolver.Resolve<IBankService>();
             bankService.Transfer(sourceAccountId, destinationAccountId, amount);
         }
 

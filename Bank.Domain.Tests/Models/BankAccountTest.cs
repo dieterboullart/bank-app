@@ -15,8 +15,8 @@ namespace Bank.Domain.Tests.Models
             // Act
             var transactions = new List<BankAccountTransaction>
             {
-                new BankAccountDepositTransaction(10, DateTime.Now),
-                new BankAccountWithdrawalTransaction(5, DateTime.Now),
+                new BankAccountDepositTransaction(1, 10, DateTime.Now),
+                new BankAccountWithdrawalTransaction(2, 5, DateTime.Now),
             };
             
             var sut = new BankAccount(1, _holder, 1000, -500, transactions);

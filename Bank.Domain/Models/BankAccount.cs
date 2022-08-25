@@ -49,7 +49,7 @@ namespace Bank.Domain.Models
             EnsureAmountNotNegative(amount);
             
             Balance += amount;
-            _transactions.Add(new BankAccountDepositTransaction(amount, dateTime));
+            _transactions.Add(new BankAccountDepositTransaction(null, amount, dateTime));
         }
 
         public void Withdraw(decimal amount, DateTime dateTime)
@@ -58,7 +58,7 @@ namespace Bank.Domain.Models
             EnsureAmountCanBeWithdrawn(amount);
             
             Balance -= amount;
-            _transactions.Add(new BankAccountWithdrawalTransaction(amount, dateTime));
+            _transactions.Add(new BankAccountWithdrawalTransaction(null, amount, dateTime));
         }
         
         public void Transfer(BankAccount destinationBankAccount, decimal amount, DateTime dateTime)
@@ -75,7 +75,7 @@ namespace Bank.Domain.Models
             
             destinationBankAccount.Balance += amount;
 
-            var transaction = new BankAccountTransferTransaction(Id, destinationBankAccount.Id, amount, dateTime);
+            var transaction = new BankAccountTransferTransaction(null, Id, destinationBankAccount.Id, amount, dateTime);
             
             _transactions.Add(transaction);
             destinationBankAccount._transactions.Add(transaction);

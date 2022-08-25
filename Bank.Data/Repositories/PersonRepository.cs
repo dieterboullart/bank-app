@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bank.Data.Context;
 using Bank.Data.Mappers;
 using Bank.Data.Mappers.Interfaces;
 using Bank.Data.Repositories.Interfaces;
@@ -10,40 +11,42 @@ namespace Bank.Data.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
+        private readonly BankContext _context;
         private readonly IEntityMapper _entityMapper;
 
-        public PersonRepository(IEntityMapper entityMapper)
+        public PersonRepository(IEntityMapper entityMapper, BankContext context)
         {
             _entityMapper = entityMapper;
+            _context = context;
         }
-        
+
         public IList<Person> Find(string nameQuery)
         {
-            using var db = LiteDBProvider.CreateDatabase();
-
-            return db.GetCollection<Entities.Person>()
-                        .Find(x => x.Name.ToLower().Contains(nameQuery.ToLower()))
-                        .Select(x => _entityMapper.ToDomain(x))
-                        .ToList();
+            return (
+                from person in _context.Persons
+                where person.Name.ToLower().Contains(nameQuery.ToLower())
+                select _entityMapper.ToDomain(person)
+            ).ToList();
         }
 
         public void Save(Person person)
         {
-            using var db = LiteDBProvider.CreateDatabase();
-
-            var personCollection = db.GetCollection<Entities.Person>();
+            var personCollection = _context.Persons;
 
             var entity = _entityMapper.ToEntity(person);
-            
-            if (personCollection.Exists(x => x.Id == person.Id))
+
+            if (personCollection.Any(x => x.Id == person.Id))
             {
                 personCollection.Update(entity);
             }
             else
             {
-                personCollection.Insert(entity);
+                personCollection.Add(entity);
+                // TODO: ???
                 person.Id = entity.Id;
-            }        
+            }
+            // TODO: Needed?
+            // _context.SaveChanges();
         }
     }
 }

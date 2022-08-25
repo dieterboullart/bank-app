@@ -4,7 +4,7 @@ namespace Bank.Domain.Models
 {
     public class BankAccountWithdrawalTransaction : BankAccountTransaction
     {
-        public BankAccountWithdrawalTransaction(decimal amount, DateTime dateTime) : base(amount, dateTime)
+        public BankAccountWithdrawalTransaction(int? id, decimal amount, DateTime dateTime) : base(id, amount, dateTime)
         {
         }
     }
